@@ -10,15 +10,25 @@
         <li class="nav-item">
           <a class="nav-link" href="<?=base_url('PrincipalController');?>">Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=base_url('PrincipalController/ConfigInicial')?>">Configuração Inicial</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Procedimentos
+            Arquivo SQL
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="<?=base_url('PrincipalController/CriaSQL');?>">Criar SQL</a>
+            <a class="dropdown-item" href="<?=base_url('PrincipalController/LigarForeignKey');?>">Ligar Chaves</a>
+            <a class="dropdown-item" href="">Criar Procedures</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Arquivos
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Popular Tabela</a>
-            <a class="dropdown-item" href="#">Criar SQL</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"></a>
           </div>
         </li>
         <li class="nav-item">

@@ -10,5 +10,6 @@
 	<meta name="" content="content">
 	<title>Automation System</title>
 	<link href="<?=base_url('node_modules/bootstrap/dist/css/bootstrap.css');?>" rel="stylesheet" />
+	<link href="<?=base_url('node_modules/css/style.css')?>" rel="stylesheet" />
 </head>
 <body>
