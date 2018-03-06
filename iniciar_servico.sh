@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
-php7\php.exe -S localhost:8080
+php -S localhost:8080

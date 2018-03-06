@@ -20,7 +20,7 @@ class Principalcontroller extends CI_Controller {
 		$dados['dados'] = $this->ConfiguracoesModel->CarregaConfig();
 		$this->load->view('automatizado/includes/header');
 		$this->load->view('automatizado/includes/menu');
-		$this->load->view('automatizado/pages/configinicial',$dados);
+		$this->load->view('automatizado/pages/configInicial',$dados);
 		$this->load->view('automatizado/includes/footer');
 	}
 
@@ -28,7 +28,7 @@ class Principalcontroller extends CI_Controller {
 		$dados['dados'] = $this->ConfiguracoesModel->CarregaConfig();
 		$this->load->view('automatizado/includes/header');
 		$this->load->view('automatizado/includes/menu');
-		$this->load->view('automatizado/pages/configinicial',$dados);
+		$this->load->view('automatizado/pages/configInicial',$dados);
 		$this->load->view('automatizado/includes/footer');
 	}
 
@@ -51,17 +51,19 @@ class Principalcontroller extends CI_Controller {
 		
 		$this->load->view('automatizado/includes/header');
 		$this->load->view('automatizado/includes/menu');
-		$this->load->view('automatizado/pages/CriaSQL');
+		$this->load->view('automatizado/pages/CriaSql');
 		$this->load->view('automatizado/includes/footer');
 	}
 
 	public function CriaArquivo() {
 		$this->ConfiguracoesModel->GravaArquivo();
+		$this->ConfiguracoesModel->CriaLog();
+
 		$this->load->view('automatizado/includes/header');
 		$this->load->view('automatizado/includes/menu');
 		$msg['msg'] = "<div class='alert alert-success' role='alert'><strong>Tabela Criada no Arquivo, Continue preenchendo o formulário, para terminar o arquivo SQL!</strong></div>";
 		$this->load->view('msg/msg_success',$msg);
-		$this->load->view('automatizado/pages/CriaSQL');
+		$this->load->view('automatizado/pages/CriaSql');
 		$this->load->view('automatizado/includes/footer');
 	}
 
@@ -74,6 +76,7 @@ class Principalcontroller extends CI_Controller {
 
 	public function GravaKey() {
 		$this->ConfiguracoesModel->LigaForeign();
+		$this->ConfiguracoesModel->CriaLog();
 
 		$this->load->view('automatizado/includes/header');
 		$this->load->view('automatizado/includes/menu');

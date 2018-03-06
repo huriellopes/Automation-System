@@ -1,37 +1,43 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Configuracoesmodel extends CI_Model {
-	// variavels
-	public $nome_base = null; 
-	public $caminho_backup = null;
-	public $caminho_logs = null;
+// Define qual o fuso horário que o PHP deve retornar
+date_default_timezone_set('America/Sao_Paulo');
 
-	public function __construct() {
+class Configuracoesmodel extends CI_Model {
+    // Variables
+    public $nome_base = null; 
+    public $caminho_backup = null;
+    public $caminho_logs = null;
+
+    // Construct responsável por carregar as Lib's do Codeigniter
+    public function __construct() {
         parent::__construct();
         $this->load->database();
         $this->load->dbutil();
     }
 
+    // Função responsável por verificar se existe o banco automation
     public function VerificaTabela() {
-    	if(!$this->dbutil->database_exists('automation')) {
-    		$this->db->query('CREATE DATABASE IF NOT EXISTS automation');
-    		$sql = "CREATE TABLE IF NOT EXISTS `automation`.`config` (
-						`id` INT NOT NULL AUTO_INCREMENT,
-						`nome_base` VARCHAR(15) NULL,
-						`caminho_backup` VARCHAR(120) NULL,
-						`caminho_logs` VARCHAR(120) NULL,
-						PRIMARY KEY(`id`)
-    				)";
+        if(!$this->dbutil->database_exists('automation')) {
+            $this->db->query('CREATE DATABASE IF NOT EXISTS automation');
+            $sql = "CREATE TABLE IF NOT EXISTS `automation`.`config` (
+                        `id` INT NOT NULL AUTO_INCREMENT,
+                        `nome_base` VARCHAR(15) NULL,
+                        `caminho_backup` VARCHAR(120) NULL,
+                        `caminho_logs` VARCHAR(120) NULL,
+                        PRIMARY KEY(`id`)
+                    )";
 
-    		$this->db->query($sql);
+            $this->db->query($sql);
 
-    		return 1;
-    	}else {
-    		return 0;
-    	}
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
+    // Função para criar o arquivo SQL no diretório
     public function CriaArquivo() {
         $dados = $this->CarregaConfig();
 
@@ -43,6 +49,24 @@ class Configuracoesmodel extends CI_Model {
             fwrite($arquivo, trim("-- Criação do DataBase"."\r\nCREATE DATABASE " .$dados[0]->nome_base.";"));
             fwrite($arquivo,"\r\n\r\n-- Usando o ".$dados[0]->nome_base."\r\nUSE ".$dados[0]->nome_base.";");
             fclose($arquivo);
+        }
+    }
+
+    // Função para criar o log no diretório especificado no formulário
+    public function CriaLog() {
+        $dados = $this->CarregaConfig();
+
+        $date = date('d/m/Y H:i');
+
+        $log = fopen($dados[0]->caminho_logs."/".$dados[0]->nome_base.".log","wb");
+
+        if($log) {
+            fwrite($log, $date." - Procedimentos Realizados com Sucesso!");
+            fclose($log);
+
+        }else{
+            fwrite($log, $date." - Ops.. Deu algum erro, refaça o procedimento!");
+            fclose($log);
         }
     }
 
@@ -88,27 +112,28 @@ class Configuracoesmodel extends CI_Model {
         }
     }
 
+    // Função responsável por gravas as configurações iniciais
     public function gravaConfig() {
-    	$config = array(
-    				'nome_base' => $this->input->post('nome_base'),
-    				'caminho_backup' => $this->input->post('caminho_backup'),
-    				'caminho_logs' => $this->input->post('caminho_logs')
-    			);
-    	$this->db->insert('automation.config', $config);
+        $config = array(
+                    'nome_base' => $this->input->post('nome_base'),
+                    'caminho_backup' => $this->input->post('caminho_backup'),
+                    'caminho_logs' => $this->input->post('caminho_logs')
+                );
+        $this->db->insert('automation.config', $config);
     }
 
     public function atualizaConfig() {
-    	$config = array(
-    				'nome_base' => $this->input->post('nome_base'),
-    				'caminho_backup' => $this->input->post('caminho_backup'),
-    				'caminho_logs' => $this->input->post('caminho_logs')
-    			);
-    	$this->db->update('automation.config', $config);
+        $config = array(
+                    'nome_base' => $this->input->post('nome_base'),
+                    'caminho_backup' => $this->input->post('caminho_backup'),
+                    'caminho_logs' => $this->input->post('caminho_logs')
+                );
+        $this->db->update('automation.config', $config);
     }
 
     public function CarregaConfig() {
-    	$sql = "SELECT * FROM automation.config";
-    	return $this->db->query($sql)->result();
+        $sql = "SELECT * FROM automation.config";
+        return $this->db->query($sql)->result();
     }
 
     public function CriaFuncao() {

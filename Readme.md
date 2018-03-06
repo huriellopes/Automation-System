@@ -6,3 +6,6 @@
 
 > Sim, o software é livre, open-source pra todos que quiserem usar, e pra aqueles que quiserem colaborar na melhoria do software, o que peço apenas é que se for usar em sistema de terceiros, coloquem o crédito ao desenvolvedor!
 
+## Funcionamento
+
+> O Sistema está funcionando tanto no Windows, quanto no Linux! tem Arquivos .bat para o Windows e .sh para o Linux para serem executados via terminal!
